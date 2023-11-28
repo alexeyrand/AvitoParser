@@ -6,13 +6,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class AvitoParser {
     //@FindBy(xpath = "//*[contains(@type, 'sybmit')]")
     //WebElement loginField;
     WebDriver driver = new ChromeDriver();
-    static String URL = "https://www.google.com/";
+    static String URL = "https://www.avito.ru/moskva/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?cd=1&s=104&user=1";
 
     void setup(){
         System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
@@ -25,10 +27,17 @@ public class AvitoParser {
 
     void start(){
         driver.get(URL);
-        By elementLocator = By.xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[4]/center/input[2]");
-        WebElement element = driver.findElement(elementLocator);
-        System.out.println(element.getAttribute("value"));
-        element.click();
-        //driver.close();
+        List<WebElement> items = driver.findElements(By.className("items-items-kAJAg"));
+        System.out.println(items.size());
+        System.out.println(items.get(0));
+
+
+        for (WebElement e : items){
+            //System.out.println(e.getText());
+
+            System.out.println(e.findElement(By.tagName("p")).getText());
+        }
+        ///element.click();
+        driver.close();
     }
 }
