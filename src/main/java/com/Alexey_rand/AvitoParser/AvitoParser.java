@@ -18,7 +18,6 @@ import static org.openqa.selenium.By.*;
 
 public class AvitoParser {
 
-
     ChromeOptions options = new ChromeOptions();
     WebDriver driver = new ChromeDriver(options.addArguments("--user-data-dir=" + System.getProperty("java.io.tmpdir")));
     String URL = MyConfig.URL;
@@ -28,9 +27,6 @@ public class AvitoParser {
         System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
         //driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-    }
-
-    private void find(){
     }
 
     void start(){
@@ -56,6 +52,9 @@ public class AvitoParser {
         for (Item i : items){
             i.getInfo();
         }
+
+
+
         ///element.click();
         //driver.close();
         driver.quit();

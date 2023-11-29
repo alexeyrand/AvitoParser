@@ -1,6 +1,7 @@
 package com.Alexey_rand.AvitoParser;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -24,7 +25,11 @@ public class Item {
         this.date = selector.findElement(By.cssSelector("p[data-marker='item-date']")).getText();
         this.href = selector.findElement(By.cssSelector("a[itemprop ='url']")).getAttribute("baseURL");
         this.price = selector.findElement(By.cssSelector("meta[itemprop ='price']")).getAttribute("content");
-        this.image = selector.findElement(By.cssSelector("img[itemprop='image']")).getAttribute("src");
+        try {
+            this.image = selector.findElement(By.cssSelector("img[itemprop='image']")).getAttribute("src");
+        } catch (NoSuchElementException NSEE) {
+            this.image = "NoImage";
+        }
     }
 
     public String getId() {
