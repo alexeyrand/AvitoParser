@@ -5,5 +5,7 @@ public class Main {
         AvitoParser parser = new AvitoParser();
         parser.setup();
         parser.start();
+
+        Runtime.getRuntime().exit(0);
     }
 }
