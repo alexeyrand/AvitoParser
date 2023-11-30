@@ -4,7 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import resources.MyConfig;
 
+import java.awt.*;
 import java.util.Objects;
 
 public class Item {
@@ -16,20 +18,24 @@ public class Item {
     private String image;
     private String date;
     private String price;
+    private String description;
+    DiscordWebhook.EmbedObject embed;
+    DiscordWebhook webhook;
 
-
-    Item(WebElement selector) {
+    Item(WebElement selector, DiscordWebhook webhook) {
         this.selector = selector;
         this.name = selector.findElement(By.cssSelector("h3[itemprop ='name']")).getText();
         this.id = selector.getAttribute("id").substring(1);
         this.date = selector.findElement(By.cssSelector("p[data-marker='item-date']")).getText();
         this.href = selector.findElement(By.cssSelector("a[itemprop ='url']")).getAttribute("baseURL");
         this.price = selector.findElement(By.cssSelector("meta[itemprop ='price']")).getAttribute("content");
+        //this.description = selector.findElement(By.cssSelector("div[class*=item-descriptionStep]")).getText();
         try {
             this.image = selector.findElement(By.cssSelector("img[itemprop='image']")).getAttribute("src");
         } catch (NoSuchElementException NSEE) {
             this.image = "NoImage";
         }
+        this.webhook = webhook;
     }
 
     public String getId() {
@@ -42,6 +48,13 @@ public class Item {
 
     public void getInfo() {
         System.out.println("id: " + id + "\ndate: " + date + "\nprice: " + price + "\nname: " + name);
+    }
+
+    public void createEbmed(){
+        webhook.addEmbed(new DiscordWebhook.EmbedObject()
+                .setColor(MyConfig.color)
+                .setTitle(this.name)
+                .setDescription("NewDescriptiontest"));
     }
 
     @Override
