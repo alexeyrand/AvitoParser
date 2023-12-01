@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -27,7 +28,7 @@ public class AvitoParser {
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
     }
 
-    void start(){
+    void start() throws InterruptedException {
         driver.get(URL);
         //String[] ids = new String[60];
 
@@ -39,8 +40,15 @@ public class AvitoParser {
             if (items.add(item) && Arrays.asList(MyConfig.dateList).contains(item.getDate())) {
                 //ids[i_ids] = item.getId();
                 //i_ids++;
-                if (items.add(item))
-                    System.out.println("Отправлен в дискорд");
+                //if (items.add(item))
+                item.createEmbed();
+                TimeUnit.SECONDS.sleep(2);
+                try {
+                    webhook.execute();
+                }   catch (IOException IOE) {
+                    throw new RuntimeException(IOE);
+                }
+                System.out.println("Отправлен в дискорд");
             }
             else{
                 System.out.println("NO");

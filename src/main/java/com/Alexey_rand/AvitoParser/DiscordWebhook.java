@@ -25,7 +25,7 @@ public class DiscordWebhook {
     private String username;
     private String avatarUrl;
     private boolean tts;
-    private List<EmbedObject> embeds = new ArrayList<>();
+    private EmbedObject embed;
 
     /**
      * Constructs a new DiscordWebhook instance
@@ -52,12 +52,12 @@ public class DiscordWebhook {
         this.tts = tts;
     }
 
-    public void addEmbed(EmbedObject embed) {
-        this.embeds.add(embed);
+    public void setEmbed(EmbedObject embed) {
+        this.embed = embed;
     }
 
     public void execute() throws IOException {
-        if (this.content == null && this.embeds.isEmpty()) {
+        if (this.content == null && this.embed == null) {
             throw new IllegalArgumentException("Set content or add at least one EmbedObject");
         }
 
@@ -68,10 +68,10 @@ public class DiscordWebhook {
         json.put("avatar_url", this.avatarUrl);
         json.put("tts", this.tts);
 
-        if (!this.embeds.isEmpty()) {
+        if (!(this.embed == null)) {
             List<JSONObject> embedObjects = new ArrayList<>();
 
-            for (EmbedObject embed : this.embeds) {
+
                 JSONObject jsonEmbed = new JSONObject();
 
                 jsonEmbed.put("title", embed.getTitle());
@@ -137,7 +137,7 @@ public class DiscordWebhook {
 
                 jsonEmbed.put("fields", jsonFields.toArray());
                 embedObjects.add(jsonEmbed);
-            }
+            /////////////////////////////////////////////////////////////////////////
 
             json.put("embeds", embedObjects.toArray());
         }

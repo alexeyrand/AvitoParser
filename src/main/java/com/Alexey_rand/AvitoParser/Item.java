@@ -1,5 +1,6 @@
 package com.Alexey_rand.AvitoParser;
 
+import com.sun.jdi.Field;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -7,6 +8,9 @@ import org.openqa.selenium.WebElement;
 import resources.MyConfig;
 
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Objects;
 
 public class Item {
@@ -27,13 +31,13 @@ public class Item {
         this.name = selector.findElement(By.cssSelector("h3[itemprop ='name']")).getText();
         this.id = selector.getAttribute("id").substring(1);
         this.date = selector.findElement(By.cssSelector("p[data-marker='item-date']")).getText();
-        this.href = selector.findElement(By.cssSelector("a[itemprop ='url']")).getAttribute("baseURL");
+        this.href = selector.findElement(By.cssSelector("a[itemprop ='url']")).getAttribute("href");
         this.price = selector.findElement(By.cssSelector("meta[itemprop ='price']")).getAttribute("content");
-        //this.description = selector.findElement(By.cssSelector("div[class*=item-descriptionStep]")).getText();
+        this.description = selector.findElement(By.cssSelector("div[class*=item-descriptionStep]")).getText();
         try {
             this.image = selector.findElement(By.cssSelector("img[itemprop='image']")).getAttribute("src");
-        } catch (NoSuchElementException NSEE) {
-            this.image = "NoImage";
+        } catch (NoSuchElementException NSE) {
+            this.image = null;
         }
         this.webhook = webhook;
     }
@@ -50,11 +54,22 @@ public class Item {
         System.out.println("id: " + id + "\ndate: " + date + "\nprice: " + price + "\nname: " + name);
     }
 
-    public void createEbmed(){
-        webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setColor(MyConfig.color)
+    public void createEmbed(){
+        System.out.println(this.image);
+        GregorianCalendar calendar = new GregorianCalendar();
+        DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
+        embed.setColor(MyConfig.color)
                 .setTitle(this.name)
-                .setDescription("NewDescriptiontest"));
+                .setDescription(this.description)
+                .setUrl(this.href)
+                .addField("**Цена**", this.price + " рублей", false)
+                .addField("**Дата публикации**", "Сегодня в "
+                        + calendar.get(Calendar.HOUR_OF_DAY) + ":"
+                        + calendar.get(Calendar.MINUTE), false);
+        if (this.image != null)
+            embed.setImage(this.image);
+        webhook.setEmbed(embed);
+        //System.out.println(href);
     }
 
     @Override

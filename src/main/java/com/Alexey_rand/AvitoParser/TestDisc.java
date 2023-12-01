@@ -23,50 +23,6 @@ public class TestDisc {
 
     public static void main(String[] args) throws IOException {
 
-        DiscordWebhook webhook = new DiscordWebhook(WEBHOOK);
-        webhook.setContent("Hello");
-        webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setColor(new Color(125, 50, 60))
-                .setTitle("he")
-                .setDescription("NewDescriptiontest"));
-
-
-
-        //try {
-        //    webhook.execute();
-        //}   catch (IOException e) {
-        //    throw new RuntimeException(e);
-        //}
-
-
-        ChromeOptions options = new ChromeOptions();
-         WebDriver driver = new ChromeDriver(options.addArguments("--user-data-dir=" + System.getProperty("java.io.tmpdir")));
-        String URL = MyConfig.URL;
-         HashSet<Item> items = new HashSet<>();
-
-        driver.get(URL);
-        String[] ids = new String[60];
-
-        int i_ids = 0;
-        //String st = driver.getPageSource().;
-        //System.out.println(st);
-        List<WebElement> selectors = driver.findElements(xpath("//div[@data-marker='item']"));
-        //driver.close();
-        for (WebElement e : selectors) {
-            Item item = new Item(e, webhook);
-            if (!Arrays.asList(ids).contains(item.getId()) && Arrays.asList(MyConfig.dateList).contains(item.getDate())) {
-                ids[i_ids] = item.getId();
-                i_ids++;
-                if (items.add(item))
-                    System.out.println("Отправлен в дискорд");
-            }
-            else{
-                System.out.println("NO");
-            }
-            System.out.println(Arrays.toString(ids));
-        }
-
-
 
     }
 }
