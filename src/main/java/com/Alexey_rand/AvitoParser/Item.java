@@ -1,19 +1,15 @@
 package com.Alexey_rand.AvitoParser;
 
-import com.sun.jdi.Field;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import resources.MyConfig;
 
-import java.awt.*;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
-/** Класс, характеризующий конкретный товар. В классе формируется embed карточка для дискорда */
+/** Класс, характеризующий конкретный товар.  */
 public class Item {
     WebDriver driver;
     WebElement selector;
@@ -55,11 +51,14 @@ public class Item {
         System.out.println("id: " + id + "\ndate: " + date + "\nprice: " + price + "\nname: " + name);
     }
 
+    /**
+     * В методе формируется embed карточка для дискорда
+     */
     public void createEmbed(){
         System.out.println(this.image);
         GregorianCalendar calendar = new GregorianCalendar();
         DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
-        embed.setColor(MyConfig.color)
+        embed.setColor(MyConfig.COLOR)
                 .setTitle(this.name)
                 .setDescription(this.description)
                 .setUrl(this.href)

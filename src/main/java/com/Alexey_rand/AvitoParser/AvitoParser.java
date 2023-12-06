@@ -1,6 +1,5 @@
 package com.Alexey_rand.AvitoParser;
 
-import resources.MyConfig;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -42,7 +41,7 @@ public class AvitoParser {
         List<WebElement> selectors = driver.findElements(xpath("//div[@data-marker='item']"));
         for (WebElement e : selectors) {
             Item item = new Item(e, webhook);
-            if (items.add(item) && Arrays.asList(MyConfig.dateList).contains(item.getDate())) {
+            if (items.add(item) && Arrays.asList(MyConfig.DATE_LIST).contains(item.getDate())) {
                 item.createEmbed();
                 TimeUnit.SECONDS.sleep(2);
                 try {
@@ -55,7 +54,7 @@ public class AvitoParser {
             else{
                 System.out.println("NO");
             }
-            if (!Arrays.asList(MyConfig.dateList).contains(item.getDate()))
+            if (!Arrays.asList(MyConfig.DATE_LIST).contains(item.getDate()))
                 break;
         }
         System.out.println(items.size());
