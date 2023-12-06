@@ -14,6 +14,11 @@ import java.util.concurrent.TimeUnit;
 
 import static org.openqa.selenium.By.*;
 
+/**
+ * Класс, описывающий основную логику работы парсера. Вебдрайвер сканирует страницу,
+ * достает список товаров. В методе start() каждому товару сопоставляется java объект класса Item,
+ * после чего, информация отправляется в Дискорд.
+ */
 public class AvitoParser {
 
     static ChromeOptions options = new ChromeOptions();
@@ -22,6 +27,9 @@ public class AvitoParser {
     static HashSet<Item> items = new HashSet<>();
     DiscordWebhook webhook = new DiscordWebhook(MyConfig.webhook);
 
+    /**
+     * Метод, отвечающий за настройку вебдрайвера
+     */
     void setup(){
         System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
         //driver.manage().window().maximize();
@@ -30,17 +38,11 @@ public class AvitoParser {
 
     void start() throws InterruptedException {
         driver.get(URL);
-        //String[] ids = new String[60];
 
-        int i_ids = 0;
-        //String st = driver.getPageSource();
         List<WebElement> selectors = driver.findElements(xpath("//div[@data-marker='item']"));
         for (WebElement e : selectors) {
             Item item = new Item(e, webhook);
             if (items.add(item) && Arrays.asList(MyConfig.dateList).contains(item.getDate())) {
-                //ids[i_ids] = item.getId();
-                //i_ids++;
-                //if (items.add(item))
                 item.createEmbed();
                 TimeUnit.SECONDS.sleep(2);
                 try {
@@ -55,17 +57,12 @@ public class AvitoParser {
             }
             if (!Arrays.asList(MyConfig.dateList).contains(item.getDate()))
                 break;
-            //System.out.println(Arrays.toString(ids));
         }
         System.out.println(items.size());
         for (Item i : items){
             i.getInfo();
         }
 
-
-
-        ///element.click();
-        //driver.close();
         driver.quit();
     }
 }

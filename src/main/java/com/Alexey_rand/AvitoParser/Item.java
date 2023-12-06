@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
+/** Класс, характеризующий конкретный товар. В классе формируется embed карточка для дискорда */
 public class Item {
     WebDriver driver;
     WebElement selector;
