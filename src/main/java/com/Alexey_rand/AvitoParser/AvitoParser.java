@@ -6,10 +6,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openqa.selenium.By.*;
 
@@ -31,23 +35,36 @@ public class AvitoParser {
      */
     void setup(){
         System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
-        //driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+    }
+
+    void openBrowser() {
+        driver.get(URL);
     }
 
     void start() throws InterruptedException {
-        driver.get(URL);
-
+        // Массив, содержащий рекламные объявления
+        Integer[] cc = new Integer[] {5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
+        ArrayList<Integer> ccc = new ArrayList<>(List.of(cc));
+        int skip = 0;
         List<WebElement> selectors = driver.findElements(xpath("//div[@data-marker='item']"));
         for (WebElement e : selectors) {
+            skip++;
+            if (ccc.contains(skip)){
+                continue;
+            }
             Item item = new Item(e, webhook);
-            if (items.add(item) && Arrays.asList(MyConfig.DATE_LIST).contains(item.getDate())) {
+            Predicate<Item> evenNumbers = x -> items.contains(x);
+            if (!evenNumbers.test(item) && Arrays.asList(MyConfig.DATE_LIST).contains(item.getDate())) {
+                items.add(item);
                 item.createEmbed();
                 TimeUnit.SECONDS.sleep(2);
                 try {
                     webhook.execute();
                 }   catch (IOException IOE) {
                     throw new RuntimeException(IOE);
+
                 }
                 System.out.println("Отправлен в дискорд");
             }
