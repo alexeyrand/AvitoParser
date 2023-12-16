@@ -9,10 +9,11 @@ public class Main {
         AvitoParser parser = new AvitoParser();
 
         parser.setup();             // Предварительные настройки драйвера
-        parser.openBrowser();       // Открытие браузера
+        parser.openBrowser(MyConfig.URL);       // Открытие браузера
         while (true) {
             parser.start();
             System.out.println("Update");
+            parser.update();
         }
         //Runtime.getRuntime().exit(0);
     }

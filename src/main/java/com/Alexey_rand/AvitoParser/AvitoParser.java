@@ -24,9 +24,8 @@ import static org.openqa.selenium.By.*;
  */
 public class AvitoParser {
 
-    static ChromeOptions options = new ChromeOptions();
-    static WebDriver driver = new ChromeDriver(options.addArguments("--user-data-dir=" + System.getProperty("java.io.tmpdir")));
-    String URL = MyConfig.URL;
+    private static ChromeOptions options = new ChromeOptions();
+    private static WebDriver driver = new ChromeDriver(options.addArguments("--user-data-dir=" + System.getProperty("java.io.tmpdir")));
     static HashSet<Item> items = new HashSet<>();
     DiscordWebhook webhook = new DiscordWebhook(MyConfig.webhook);
 
@@ -38,8 +37,10 @@ public class AvitoParser {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
     }
+    void update() {
+        driver.navigate().refresh();}
 
-    void openBrowser() {
+    void openBrowser(String URL) {
         driver.get(URL);
     }
 
@@ -79,6 +80,6 @@ public class AvitoParser {
             i.getInfo();
         }
 
-        driver.quit();
+        //driver.quit();
     }
 }
