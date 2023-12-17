@@ -6,14 +6,17 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-        AvitoParser parser = new AvitoParser();
 
-        parser.setup();             // Предварительные настройки драйвера
+        ParserFactory factory = new ParserFactory();
+        Parser parser = factory.getParser(TypeParser.AVITO);
+
+
+        parser.setup();                         // Предварительные настройки драйвера
         parser.openBrowser(MyConfig.URL);       // Открытие браузера
         while (true) {
             parser.start();
             System.out.println("Update");
-            parser.update();
+            parser.update();                    // Обновление страницы
         }
         //Runtime.getRuntime().exit(0);
     }

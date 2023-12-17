@@ -22,7 +22,7 @@ import static org.openqa.selenium.By.*;
  * достает список товаров. В методе start() каждому товару сопоставляется java объект класса Item,
  * после чего, информация отправляется в Дискорд.
  */
-public class AvitoParser {
+public class AvitoParser implements Parser {
 
     private static ChromeOptions options = new ChromeOptions();
     private static WebDriver driver = new ChromeDriver(options.addArguments("--user-data-dir=" + System.getProperty("java.io.tmpdir")));
@@ -32,19 +32,19 @@ public class AvitoParser {
     /**
      * Метод, отвечающий за настройку вебдрайвера
      */
-    void setup(){
+    public void setup(){
         System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
     }
-    void update() {
+    public void update() {
         driver.navigate().refresh();}
 
-    void openBrowser(String URL) {
+    public void openBrowser(String URL) {
         driver.get(URL);
     }
 
-    void start() throws InterruptedException {
+    public  void start() throws InterruptedException {
         // Массив, содержащий рекламные объявления
         Integer[] cc = new Integer[] {5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
         ArrayList<Integer> ccc = new ArrayList<>(List.of(cc));

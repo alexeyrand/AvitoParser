@@ -13,13 +13,13 @@ import java.util.Objects;
 public class Item {
     WebDriver driver;
     WebElement selector;
-    private String id;
-    private String name;
-    private String href;
+    private final String id;
+    private final String name;
+    private final String href;
     private String image;
-    private String date;
-    private String price;
-    private String description;
+    private final String date;
+    private final String price;
+    private final String description;
     DiscordWebhook.EmbedObject embed;
     DiscordWebhook webhook;
 
@@ -70,6 +70,16 @@ public class Item {
             embed.setImage(this.image);
         webhook.setEmbed(embed);
         //System.out.println(href);
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", date='" + date + '\'' +
+                ", price='" + price + '\'' +
+                '}';
     }
 
     @Override
