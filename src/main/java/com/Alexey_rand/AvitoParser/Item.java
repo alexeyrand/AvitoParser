@@ -70,6 +70,9 @@ public class Item {
             embed.setImage(this.image);
         webhook.setEmbed(embed);
         //System.out.println(href);
+
+
+        //TODO: correct create images
     }
 
     @Override

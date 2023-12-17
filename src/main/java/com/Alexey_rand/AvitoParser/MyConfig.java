@@ -11,5 +11,5 @@ public class MyConfig {
     // Настройки для Embed
     public static Color COLOR = new Color(125, 50, 60);
 
-
+    //TODO: Реализовать несколько различных вкладок
 }

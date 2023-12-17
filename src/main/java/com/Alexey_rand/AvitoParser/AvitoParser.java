@@ -58,7 +58,7 @@ public class AvitoParser implements Parser {
             Item item = new Item(e, webhook);
             Predicate<Item> evenNumbers = x -> items.contains(x);
             if (!evenNumbers.test(item) && Arrays.asList(MyConfig.DATE_LIST).contains(item.getDate())) {
-                items.add(item);
+                items.add(item);                //TODO: Реализовать выгрузку стека
                 item.createEmbed();
                 TimeUnit.SECONDS.sleep(2);
                 try {
