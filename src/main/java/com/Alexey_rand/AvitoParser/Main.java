@@ -8,7 +8,12 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
 
         ParserFactory factory = new ParserFactory();
+
+
         Parser parser = factory.getParser(TypeParser.AVITO);
+        StartThread startThread = new StartThread(MyConfig.URL2);
+        Thread thread1 = new Thread(startThread);
+        thread1.start();
 
 
         parser.setup();                         // Предварительные настройки драйвера
