@@ -32,8 +32,10 @@ public class Item {
         this.price = selector.findElement(By.cssSelector("meta[itemprop ='price']")).getAttribute("content");
         this.description = selector.findElement(By.cssSelector("div[class*=item-descriptionStep]")).getText();
         try {
+            Thread.sleep(10000);
             this.image = selector.findElement(By.cssSelector("img[itemprop='image']")).getAttribute("src");
-        } catch (NoSuchElementException NSE) {
+            Thread.sleep(10000);
+        } catch (Exception NSE) {
             this.image = null;
         }
         this.webhook = webhook;
@@ -68,6 +70,9 @@ public class Item {
                         + calendar.get(Calendar.MINUTE), false);
         if (this.image != null)
             embed.setImage(this.image);
+        else {
+            embed.setImage("https://ibb.co/gjQCLR8");
+        }
         webhook.setEmbed(embed);
         //System.out.println(href);
 

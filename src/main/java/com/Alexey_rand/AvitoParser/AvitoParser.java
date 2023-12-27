@@ -1,5 +1,6 @@
 package com.Alexey_rand.AvitoParser;
 
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -24,18 +25,27 @@ import static org.openqa.selenium.By.*;
  */
 public class AvitoParser implements Parser {
 
-    private static ChromeOptions options = new ChromeOptions();
-    private static WebDriver driver = new ChromeDriver(options.addArguments("--user-data-dir=" + System.getProperty("java.io.tmpdir")));
+    private final WebDriver driver;
     static HashSet<Item> items = new HashSet<>();
     DiscordWebhook webhook = new DiscordWebhook(MyConfig.webhook);
 
+    public AvitoParser() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("disable-infobars"); // disabling infobars
+        options.addArguments("--disable-extensions"); // disabling extensions
+        options.addArguments("--disable-gpu"); // applicable to windows os only
+        options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+        options.addArguments("--no-sandbox"); // Bypass OS security model
+        this.driver = new ChromeDriver(options);
+    }
     /**
      * Метод, отвечающий за настройку вебдрайвера
      */
     public void setup(){
         System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        //driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
     }
     public void update() {
         driver.navigate().refresh();}
@@ -51,7 +61,7 @@ public class AvitoParser implements Parser {
         int skip = 0;
         List<WebElement> selectors = driver.findElements(xpath("//div[@data-marker='item']"));
         for (WebElement e : selectors) {
-            skip++;
+            //skip++;
             if (ccc.contains(skip)){
                 continue;
             }
@@ -70,14 +80,10 @@ public class AvitoParser implements Parser {
                 System.out.println("Отправлен в дискорд");
             }
             else{
-                System.out.println("NO");
+                System.out.println("Новых товаров нет");
             }
             if (!Arrays.asList(MyConfig.DATE_LIST).contains(item.getDate()))
                 break;
-        }
-        System.out.println(items.size());
-        for (Item i : items){
-            i.getInfo();
         }
 
         //driver.quit();
