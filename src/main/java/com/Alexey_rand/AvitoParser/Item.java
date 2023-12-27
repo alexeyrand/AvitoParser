@@ -32,11 +32,11 @@ public class Item {
         this.price = selector.findElement(By.cssSelector("meta[itemprop ='price']")).getAttribute("content");
         this.description = selector.findElement(By.cssSelector("div[class*=item-descriptionStep]")).getText();
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
             this.image = selector.findElement(By.cssSelector("img[itemprop='image']")).getAttribute("src");
-            Thread.sleep(10000);
+            Thread.sleep(1000);
         } catch (Exception NSE) {
-            this.image = null;
+            this.image = "";
         }
         this.webhook = webhook;
     }
@@ -67,15 +67,14 @@ public class Item {
                 .addField("**Цена**", this.price + " рублей", false)
                 .addField("**Дата публикации**", "Сегодня в "
                         + calendar.get(Calendar.HOUR_OF_DAY) + ":"
-                        + calendar.get(Calendar.MINUTE), false);
-        if (this.image != null)
-            embed.setImage(this.image);
-        else {
-            embed.setImage("https://ibb.co/gjQCLR8");
-        }
+                        + calendar.get(Calendar.MINUTE), false)
+                .setImage(this.image);
+//        if (this.image != null)
+//            embed.setImage(this.image);
+//        else {
+//            embed.setImage("");
+//        }
         webhook.setEmbed(embed);
-        //System.out.println(href);
-
 
         //TODO: correct create images
     }

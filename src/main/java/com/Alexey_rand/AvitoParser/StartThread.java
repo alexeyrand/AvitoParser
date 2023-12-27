@@ -15,32 +15,22 @@ public class StartThread implements Runnable {
 
     @Override
     public void run() {
-        System.out.println(Thread.currentThread().getName());
+
         parser.setup();
         parser.openBrowser(Url);
+        while (true) {
+            try {
+                parser.start();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                Thread.sleep(30000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            parser.update();
 
-        try {
-            parser.start();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
-
-//        while (true) {
-//            System.out.println("check2");
-//            try {
-//                System.out.println("check3");
-//                parser.start();
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//            System.out.println("Update");
-//            try {
-//                Thread.sleep(10000);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//            parser.update();                    // Обновление страницы
-//        }
-
     }
 }

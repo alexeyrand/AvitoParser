@@ -13,8 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 import static org.openqa.selenium.By.*;
 
@@ -44,7 +43,7 @@ public class AvitoParser implements Parser {
     public void setup(){
         System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
         //driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
     }
     public void update() {
@@ -81,6 +80,7 @@ public class AvitoParser implements Parser {
             }
             else{
                 System.out.println("Новых товаров нет");
+                break;
             }
             if (!Arrays.asList(MyConfig.DATE_LIST).contains(item.getDate()))
                 break;
