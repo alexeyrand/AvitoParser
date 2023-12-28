@@ -24,7 +24,7 @@ import static org.openqa.selenium.By.*;
  */
 public class AvitoParser implements Parser {
 
-    private final WebDriver driver;
+    private WebDriver driver;
     static HashSet<Item> items = new HashSet<>();
     DiscordWebhook webhook = new DiscordWebhook(MyConfig.webhook);
 
@@ -35,7 +35,7 @@ public class AvitoParser implements Parser {
         options.addArguments("--disable-gpu"); // applicable to windows os only
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         options.addArguments("--no-sandbox"); // Bypass OS security model
-        this.driver = new ChromeDriver(options);
+        driver = new ChromeDriver(options);
     }
     /**
      * Метод, отвечающий за настройку вебдрайвера
@@ -51,6 +51,10 @@ public class AvitoParser implements Parser {
 
     public void openBrowser(String URL) {
         driver.get(URL);
+    }
+
+    public WebDriver getDriver() {
+        return driver;
     }
 
     public  void start() throws InterruptedException {
@@ -86,6 +90,8 @@ public class AvitoParser implements Parser {
                 break;
         }
 
-        //driver.quit();
+
     }
+
+
 }

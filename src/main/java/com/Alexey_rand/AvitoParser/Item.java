@@ -4,10 +4,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
 
 /** Класс, характеризующий конкретный товар.  */
 public class Item {
@@ -32,12 +37,22 @@ public class Item {
         this.price = selector.findElement(By.cssSelector("meta[itemprop ='price']")).getAttribute("content");
         this.description = selector.findElement(By.cssSelector("div[class*=item-descriptionStep]")).getText();
         try {
-            Thread.sleep(1000);
-            this.image = selector.findElement(By.cssSelector("img[itemprop='image']")).getAttribute("src");
-            Thread.sleep(1000);
-        } catch (Exception NSE) {
-            this.image = "";
+            this.image = Optional.ofNullable(selector.findElement(By.cssSelector("img[class*='photo-slider-image']")).getAttribute("src"))
+                    .orElseThrow();
+
         }
+        catch (NoSuchElementException nse) {
+            this.image = "https://ibb.co/xmfbwMX";
+        }
+//        try {
+//            //Thread.sleep(1000);
+//            this.image = selector.findElement(By.cssSelector("img[class*='photo-slider-image']")).getAttribute("src");
+//            //Thread.sleep(1000);
+//        } finally {
+//            System.out.println("No image");
+//
+//        }
+//        System.out.println("Переход");
         this.webhook = webhook;
     }
 
