@@ -21,8 +21,9 @@ public class StartThread implements Runnable {
         driver = avitoParser.getDriver();
         avitoParser.setup();
         avitoParser.openBrowser(Url);
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.scrollBy(0, 3500)");
+        System.out.println("Открыл");
+        //JavascriptExecutor jse = (JavascriptExecutor) driver;
+        //jse.executeScript("window.scrollBy(0, 3500)");
         while (true) {
             try {
                 avitoParser.start();

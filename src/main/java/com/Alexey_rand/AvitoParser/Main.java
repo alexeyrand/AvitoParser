@@ -14,12 +14,12 @@ public class Main {
         ParserFactory factory = new ParserFactory();
 
         StartThread startThread1 = new StartThread(MyConfig.URL, factory.getParser(TypeParser.AVITO));
-        //StartThread startThread2 = new StartThread(MyConfig.URL2, factory.getParser(TypeParser.AVITO));
+        StartThread startThread2 = new StartThread(MyConfig.URL2, factory.getParser(TypeParser.AVITO));
 
         Thread th1 = new Thread(startThread1);
-        //Thread th2 = new Thread(startThread2);
+        Thread th2 = new Thread(startThread2);
         th1.start();
-        //th2.start();
+        th2.start();
 
         //Runtime.getRuntime().exit(0);
     }

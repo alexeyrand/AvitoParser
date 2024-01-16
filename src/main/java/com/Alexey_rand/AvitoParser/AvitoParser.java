@@ -74,12 +74,8 @@ public class AvitoParser implements Parser {
                 items.add(item);                //TODO: Реализовать выгрузку стека
                 item.createEmbed();
                 TimeUnit.SECONDS.sleep(2);
-                try {
-                    webhook.execute();
-                }   catch (IOException IOE) {
-                    throw new RuntimeException(IOE);
-
-                }
+                System.out.println(item);
+                //webhook.execute();
                 System.out.println("Отправлен в дискорд");
             }
             else{
